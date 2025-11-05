@@ -1,0 +1,12 @@
+# Core dependencies
+playwright==1.48.0
+beautifulsoup4==4.12.3
+requests==2.32.3
+pandas==2.2.3
+sqlalchemy==2.0.36
+python-dotenv==1.0.1
+
+# For Gmail API
+google-auth==2.34.0
+google-auth-oauthlib==1.2.1
+google-api-python-client==2.154.0
