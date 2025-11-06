@@ -7,7 +7,7 @@ from playwright.async_api import async_playwright
 # ---------------------------------------
 # Configuration
 # ---------------------------------------
-HEADLESS = True  # Set to False to see browser
+HEADLESS = False  # Set to False to see browser
 TIMEOUT = 15000  # 15 seconds
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0 Safari/537.36",
@@ -42,3 +42,30 @@ async def launch_browser():
     print(f"[browser] Launched Chromium (headless={HEADLESS})")
 
     return _browser
+
+async def get_page(url: str):
+    """
+    Opens a new browser page, navigates to the URL,
+    and returns the loaded Playwright Page object.
+    Includes timeout + retry safety.
+    """
+    browser = await launch_browser()
+
+    # Create a new isolated browser context
+    context = await browser.new_context(
+        user_agent=random.choice(USER_AGENTS)
+    )
+
+    page = await context.new_page()
+
+    try:
+        print(f"[browser] Opening page: {url}")
+        await page.goto(url, timeout=TIMEOUT)
+        print("[browser] Page loaded successfully.")
+        return page
+
+    except Exception as e:
+        print(f"[browser] ❌ Failed to load page: {e}")
+        await context.close()
+        raise
+
