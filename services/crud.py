@@ -5,6 +5,8 @@ from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from db.models import Product
 from .session import get_session
+from datetime import datetime, timezone
+from db.models import PriceHistory
 
 def add_product(url: str, name: Optional[str] = None, target_price: Optional[float | Decimal] = None) -> Product:
     """
@@ -95,3 +97,41 @@ def delete_product(product_id: int) -> None:
         if not product:
             raise ValueError(f"Product not found: id={product_id}")
         s.delete(product)
+
+def add_price_record(product_id: int, price: float | Decimal, note: Optional[str] = None) -> PriceHistory:
+    """
+    Add a new price entry linked to a product.
+    """
+    with get_session() as s:
+        product = s.get(Product, product_id)
+        if not product:
+            raise ValueError(f"Product not found: id={product_id}")
+
+        record = PriceHistory(
+            product_id=product_id,
+            price=float(price),
+            note=note,
+            recorded_at=datetime.now(timezone.utc),  # ✅ matches your model
+        )
+        s.add(record)
+        s.flush()
+        s.refresh(record)
+        return record
+
+
+def get_price_history(product_id: int) -> list[PriceHistory]:
+    """
+    Retrieve all price records for a product, newest first.
+    """
+    with get_session() as s:
+        product = s.get(Product, product_id)
+        if not product:
+            raise ValueError(f"Product not found: id={product_id}")
+
+        records = (
+            s.query(PriceHistory)
+            .filter(PriceHistory.product_id == product_id)
+            .order_by(PriceHistory.recorded_at.desc())
+            .all()
+        )
+        return records
