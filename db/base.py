@@ -17,7 +17,9 @@ engine = create_engine(DATABASE_URL, echo=True, future=True)
 # --- Session factory ---
 # SessionLocal() will give you a session bound to the engine.
 # autoflush=False and autocommit=False are explicit dev-friendly defaults.
-SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, future=True)
+from sqlalchemy.orm import sessionmaker
+
+SessionLocal = sessionmaker(bind=engine, expire_on_commit=False)
 
 # --- Declarative Base ---
 # All ORM models inherit from this Base class.
