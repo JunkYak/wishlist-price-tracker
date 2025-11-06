@@ -51,3 +51,47 @@ def get_product_by_id(product_id: int) -> Optional[Product]:
     with get_session() as s:
         stmt = select(Product).where(Product.id == product_id)
         return s.scalars(stmt).first()
+
+def update_product(
+    product_id: int,
+    *,
+    name: Optional[str] = None,
+    url: Optional[str] = None,
+    target_price: Optional[float | Decimal | None] = ...,
+) -> Product:
+    """
+    Update an existing product.
+    - Pass target_price=... (ellipsis) to leave unchanged
+    - Pass None to clear target_price
+    """
+    with get_session() as s:
+        product = s.get(Product, product_id)
+        if not product:
+            raise ValueError(f"Product not found: id={product_id}")
+
+        if name is not None:
+            product.name = name.strip() if name else None
+
+        if url is not None:
+            new_url = url.strip()
+            if not new_url:
+                raise ValueError("URL cannot be empty")
+            product.url = new_url
+
+        if target_price is not ...:
+            product.target_price = (
+                Decimal(str(target_price)) if target_price is not None else None
+            )
+
+        s.flush()
+        s.refresh(product)
+        return product
+
+
+def delete_product(product_id: int) -> None:
+    """Delete a product from the wishlist."""
+    with get_session() as s:
+        product = s.get(Product, product_id)
+        if not product:
+            raise ValueError(f"Product not found: id={product_id}")
+        s.delete(product)
