@@ -69,3 +69,23 @@ async def get_page(url: str):
         await context.close()
         raise
 
+async def close_browser():
+    """
+    Gracefully closes the browser and Playwright engine.
+    Prevents 'event loop closed' warnings during cleanup.
+    """
+    global _browser, _playwright
+
+    try:
+        if _browser:
+            await _browser.close()
+            print("[browser] Browser closed.")
+            _browser = None
+
+        if _playwright:
+            await _playwright.stop()
+            print("[browser] Playwright stopped.")
+            _playwright = None
+
+    except Exception as e:
+        print(f"[browser] ⚠️ Error while closing browser: {e}")
