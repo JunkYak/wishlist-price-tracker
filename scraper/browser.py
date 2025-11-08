@@ -39,7 +39,17 @@ async def launch_browser():
     _playwright = await async_playwright().start()
 
     # Launch Chromium browser
-    _browser = await _playwright.chromium.launch(headless=HEADLESS)
+    _browser = await _playwright.chromium.launch(
+    headless=HEADLESS,
+    args=[
+        "--disable-blink-features=AutomationControlled",
+        "--no-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-infobars",
+        "--disable-blink-features",
+    ]
+)
+
     print(f"[browser] Launched Chromium (headless={HEADLESS})")
 
     return _browser
@@ -57,7 +67,11 @@ async def get_page(url: str):
     site = identify_site(url)
 
     browser = await launch_browser()
-    context = await browser.new_context(user_agent=random.choice(USER_AGENTS))
+    context = await browser.new_context(
+    user_agent=random.choice(USER_AGENTS),
+    java_script_enabled=True,
+    bypass_csp=True,
+)
     page = await context.new_page()
 
     try:

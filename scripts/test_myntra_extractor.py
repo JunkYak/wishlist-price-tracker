@@ -7,7 +7,7 @@ from scraper.browser import get_page, close_browser
 from scraper.extractors.myntra import extract_product_details
 
 
-TEST_URL = "https://www.myntra.com/casual-shoes/asics/asics-gel-1130-unisex-leather-casual-sneakers/35128106/buy"  # 🧪 example product URL
+TEST_URL = "https://www.myntra.com/tops/marks26spencer/marks--spencer-cut-out-detail-square-neck-puff-sleeves-top/25361316/buy"  # 🧪 example product URL
 
 
 async def main():

@@ -1,0 +1,23 @@
+{
+  "name": "wishlist-price-tracker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JunkYak/wishlist-price-tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JunkYak/wishlist-price-tracker/issues"
+  },
+  "homepage": "https://github.com/JunkYak/wishlist-price-tracker#readme",
+  "description": "",
+  "dependencies": {
+    "@ulixee/hero-playground": "^2.0.0-alpha.34"
+  }
+}

@@ -6,3 +6,4 @@ token.json
 .playwright/
 # Ignore local SQLite databases
 *.db
+node_modules

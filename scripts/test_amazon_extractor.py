@@ -5,7 +5,7 @@ import asyncio
 from scraper.browser import get_page, close_browser
 from scraper.extractors.amazon import extract_product_details
 
-TEST_URL = "https://www.amazon.in/Bath-Body-Works-Japanese-Fragrance/dp/B0DYJXHLTQ?crid=36767523TEMQY&dib=eyJ2IjoiMSJ9.1kB8guVTpjwmdtE-yqh-BWFeyZuWShX-ruYo7O-ZOZKF1Mw1m78SgS4g0KguTkVuCycAI_-ukieEXUWvnfMyazMZXlobWCMyc6lBIpK5h_k5SDmhF7P4WlnWKOfysv9DwD9MsZMOL-2TOTtwKJlFRXJO4x7AupNvme_r-0XA9p8egL77ZGyWUPo7eTDsp869XfosvpIcopHJHk7ntbaELpR3P5ERyi5IiVnoXYd8E-rfU47OGIU3rNuN-8z88eyNGCLm6FRB1zRomq5fTAMbSzYhNj30qtlr8-sDMpGJZ-Q.44zkavZWCD-rxPfYahcZ7qyDbgZUfB3pD55WMdzNaWI&dib_tag=se&keywords=bath+and+body+works+mist&qid=1762427347&sprefix=batha+nd+%2Caps%2C263&sr=8-28"
+TEST_URL = "https://www.amazon.in/Bath-Body-Works-Japanese-Fragrance/dp/B0DYJXHLTQ?crid=2QTXVTA341XZQ&dib=eyJ2IjoiMSJ9.1kB8guVTpjwmdtE-yqh-BfAGrG17W5aG9mR75ziZcvnyjT_xbZniZBB8F47RMEzOchJqxEtv3UF80-UytgfEI-DtnQO-dE_IBh6I6VCzLn8pJz2OeDItnO5XdJg7GUt_Cfv0WuNdX_GOpT56DBE5swMIPk3EZPLxyJd6wtXv9YawjNx72aVqUXv4q_9lazp6asvLV9mnffs745ZrGrWw6pyxfBDBjdJEEpozrKDCj_dbK651eK2An3QYyxegrmQm8fWJ9lvjbklBav-obnceQTYhNj30qtlr8-sDMpGJZ-Q.3nAh003vBYEX9Al8E9gjP1X_fAgSiCIZTzmoEJaRq_Q&dib_tag=se&keywords=bath+and+body+works+mist&qid=1762581428&sprefix=bath+and+body+works+mist%2Caps%2C277&sr=8-28"
 
 async def main():
     page = await get_page(TEST_URL)
