@@ -19,28 +19,48 @@ def _clean_price(price_str: str) -> float:
 
 async def extract_product_details(page: Page):
     """
-    Extracts product name and price from a Flipkart product page.
-    Returns: dict with 'name' and 'price'.
+    Extracts product name, price, and availability from a Flipkart product page.
+    Returns: dict with 'name', 'price', 'available'.
     """
     try:
-        # Wait for title and price elements
+        # Wait for title element
         await page.wait_for_selector("span.VU-ZEz", timeout=15000)
-        await page.wait_for_selector("div.Nx9bqj.CxhGGd", timeout=15000)
-
-        # Extract product name
         name_el = page.locator("span.VU-ZEz")
         name = (await name_el.inner_text()).strip()
 
-        # Extract product price
-        price_el = page.locator("div.Nx9bqj.CxhGGd")
-        price_raw = (await price_el.first.inner_text()).strip()
-        price = _clean_price(price_raw)
+        # Try to get price (may not exist if sold out)
+        price = None
+        try:
+            price_el = page.locator("div.Nx9bqj.CxhGGd")
+            if await price_el.count() > 0:
+                raw_price = (await price_el.first.inner_text()).strip()
+                price = _clean_price(raw_price)
+        except Exception:
+            pass
+
+        # ✅ Availability detection using your confirmed selectors
+        available = True
+        try:
+            sold_out_el = page.locator("div.Z8JjpR, div.nbiUlm")
+            if await sold_out_el.count() > 0:
+                text = (await sold_out_el.all_inner_texts())
+                text = " ".join(text).lower()
+                if "sold out" in text or "out of stock" in text:
+                    available = False
+        except Exception:
+            pass
+
+        # Nullify price if unavailable
+        if not available:
+            price = None
 
         print(f"[flipkart] Extracted name: {name}")
         print(f"[flipkart] Extracted price: {price}")
+        print(f"[flipkart] Availability: {'Available' if available else 'Sold Out'}")
 
-        return {"name": name, "price": price}
+        return {"name": name, "price": price, "available": available}
 
     except Exception as e:
         print(f"[flipkart] ❌ Extraction failed: {e}")
-        return {"name": "Unknown Product", "price": 0.0}
+        return {"name": "Unknown Product", "price": 0.0, "available": False}
+
