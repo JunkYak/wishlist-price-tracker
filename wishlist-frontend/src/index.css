@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 258 18% 8%;
+    --foreground: 258 10% 88%;
+
+    --card: 258 15% 10%;
+    --card-foreground: 258 10% 88%;
+
+    --popover: 258 15% 10%;
+    --popover-foreground: 258 10% 88%;
+
+    --primary: 270 68% 77%;
+    --primary-foreground: 258 18% 8%;
+
+    --secondary: 258 15% 18%;
+    --secondary-foreground: 258 10% 88%;
+
+    --muted: 258 12% 15%;
+    --muted-foreground: 258 8% 60%;
+
+    --accent: 270 68% 77%;
+    --accent-foreground: 258 18% 8%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 258 15% 20%;
+    --input: 258 15% 18%;
+    --ring: 270 68% 77%;
+
+    --radius: 1rem;
+
+    --sidebar-background: 258 18% 8%;
+    --sidebar-foreground: 258 10% 88%;
+    --sidebar-primary: 270 68% 77%;
+    --sidebar-primary-foreground: 258 18% 8%;
+    --sidebar-accent: 258 15% 18%;
+    --sidebar-accent-foreground: 258 10% 88%;
+    --sidebar-border: 258 15% 20%;
+    --sidebar-ring: 270 68% 77%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-gradient-to-br from-[#0e0e11] to-[#1a1a22] text-foreground font-sans antialiased min-h-screen;
+  }
+}
+
+@layer utilities {
+  .glass-card {
+    @apply backdrop-blur-md bg-[#1a1a22]/80 border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.6)] rounded-2xl;
+  }
+  
+  .glass-hover {
+    @apply transition-all duration-300 hover:shadow-[0_0_18px_3px_rgba(197,140,255,0.25)] hover:border-white/20 hover:scale-[1.01];
+  }
+  
+  .glass-overlay {
+    @apply fixed inset-0 flex justify-center items-center backdrop-blur-xl bg-black/50 z-50;
+  }
+}
